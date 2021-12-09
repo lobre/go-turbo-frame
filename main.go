@@ -61,6 +61,10 @@ func (app *application) form(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app *application) frame(w http.ResponseWriter, r *http.Request) {
+	// net/http won’t automatically detect the content-type
+	// if the frame is the first element of the payload.
+	w.Header().Set("Content-Type", "text/html")
+
 	err := app.frameTmpl.Execute(w, nil)
 	if err != nil {
 		serverErr(w)
